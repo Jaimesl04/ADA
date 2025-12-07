@@ -1,68 +1,65 @@
 package com.hibernate2.entidades;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Proyecto")
+@Table(name = "proyecto")
 public class proyecto {
 
     @Id
-    @Column(length = 20)
-    private String Nombre;
+    @Column(name = "Nombre", length = 20)
+    private String nombre;
 
     @Column(name = "FechaInicio")
-    private LocalDateTime FechaInicio;
+    private Date fechaInicio;
 
-    // Relaciones
-    @OneToMany(mappedBy = "Proyecto")
-    private List<investigador> investigadores = new ArrayList<>();
+    // RELACIONES
+    @OneToMany(mappedBy = "proyecto")
+    private Set<investigador> investigadores = new HashSet<>();
 
-    // Constructores
+    // CONSTRUCTORES
     public proyecto() {
     }
 
-    public proyecto(String nombre, LocalDateTime fechaInicio) {
-        Nombre = nombre;
-        FechaInicio = fechaInicio;
+    public proyecto(String nombre, Date fechaInicio) {
+        this.nombre = nombre;
+        this.fechaInicio = fechaInicio;
     }
 
-    // Getters y Setters
+    // GETTERS Y SETTERS
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
     public void setNombre(String nombre) {
-        Nombre = nombre;
+        this.nombre = nombre;
     }
 
-    public LocalDateTime getFechaInicio() {
-        return FechaInicio;
+    public Date getFechaInicio() {
+        return fechaInicio;
     }
 
-    public void setFechaInicio(LocalDateTime fechaInicio) {
-        FechaInicio = fechaInicio;
+    public void setFechaInicio(Date fechaInicio) {
+        this.fechaInicio = fechaInicio;
     }
 
-    public List<investigador> getInvestigadores() {
+    public Set<investigador> getInvestigadores() {
         return investigadores;
     }
 
-    public void setInvestigadores(List<investigador> investigadores) {
+    public void setInvestigadores(Set<investigador> investigadores) {
         this.investigadores = investigadores;
     }
 
-    // toString
     @Override
     public String toString() {
-        return "Proyecto [Nombre=" + Nombre + ", FechaInicio=" + FechaInicio + "]";
+        return nombre + " (Inicio: " + fechaInicio + ")";
     }
-
 }

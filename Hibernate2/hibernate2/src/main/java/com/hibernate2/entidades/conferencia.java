@@ -1,14 +1,11 @@
 package com.hibernate2.entidades;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "conferencia")
@@ -16,71 +13,75 @@ public class conferencia {
 
     @Id
     @Column(name = "Nombre", length = 100)
-    private String Nombre;
+    private String nombre;
 
     @Column(name = "FechaHoraInicio")
-    private LocalDateTime FechaHoraInicio;
+    private Date fechaHoraInicio;
 
     @Column(name = "Lugar")
-    private String Lugar;
+    private String lugar;
 
     @Column(name = "NumeroHoras")
-    private Double NumeroHoras;
+    private Double numeroHoras;
 
     // RELACIONES
-    @ManyToMany(mappedBy = "conferencia")
-    private Set<investigador_conferencia> investigador_conferencias = new HashSet<>();
+    @OneToMany(mappedBy = "conferencia", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<investigador_conferencia> asistencias = new HashSet<>();
 
     // CONSTRUCTORES
     public conferencia() {
     }
 
-    public conferencia(String nombre, LocalDateTime fechaHoraInicio, String lugar, Double numeroHoras) {
-        Nombre = nombre;
-        FechaHoraInicio = fechaHoraInicio;
-        Lugar = lugar;
-        NumeroHoras = numeroHoras;
+    public conferencia(String nombre, Date fechaHoraInicio, String lugar, Double numeroHoras) {
+        this.nombre = nombre;
+        this.fechaHoraInicio = fechaHoraInicio;
+        this.lugar = lugar;
+        this.numeroHoras = numeroHoras;
     }
 
     // GETTERS Y SETTERS
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
     public void setNombre(String nombre) {
-        Nombre = nombre;
+        this.nombre = nombre;
     }
 
-    public LocalDateTime getFechaHoraInicio() {
-        return FechaHoraInicio;
+    public Date getFechaHoraInicio() {
+        return fechaHoraInicio;
     }
 
-    public void setFechaHoraInicio(LocalDateTime fechaHoraInicio) {
-        FechaHoraInicio = fechaHoraInicio;
+    public void setFechaHoraInicio(Date fechaHoraInicio) {
+        this.fechaHoraInicio = fechaHoraInicio;
     }
 
     public String getLugar() {
-        return Lugar;
+        return lugar;
     }
 
     public void setLugar(String lugar) {
-        Lugar = lugar;
+        this.lugar = lugar;
     }
 
     public Double getNumeroHoras() {
-        return NumeroHoras;
+        return numeroHoras;
     }
 
     public void setNumeroHoras(Double numeroHoras) {
-        NumeroHoras = numeroHoras;
+        this.numeroHoras = numeroHoras;
     }
 
-    public Set<investigador_conferencia> getInvestigador_conferencias() {
-        return investigador_conferencias;
+    public Set<investigador_conferencia> getAsistencias() {
+        return asistencias;
     }
 
-    public void setInvestigador_conferencias(Set<investigador_conferencia> investigador_conferencias) {
-        this.investigador_conferencias = investigador_conferencias;
+    public void setAsistencias(Set<investigador_conferencia> asistencias) {
+        this.asistencias = asistencias;
     }
 
+    @Override
+    public String toString() {
+        return nombre + " en " + lugar + " (" + fechaHoraInicio + ")";
+    }
 }

@@ -1,13 +1,6 @@
 package com.hibernate2.entidades;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "investigador_conferencia")
@@ -17,11 +10,11 @@ public class investigador_conferencia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "investigador_dni")
     private investigador investigador;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "conferencia_nombre")
     private conferencia conferencia;
 
@@ -29,9 +22,7 @@ public class investigador_conferencia {
     public investigador_conferencia() {
     }
 
-    public investigador_conferencia(Long id, com.hibernate2.entidades.investigador investigador,
-            com.hibernate2.entidades.conferencia conferencia) {
-        this.id = id;
+    public investigador_conferencia(investigador investigador, conferencia conferencia) {
         this.investigador = investigador;
         this.conferencia = conferencia;
     }
@@ -61,4 +52,8 @@ public class investigador_conferencia {
         this.conferencia = conferencia;
     }
 
+    @Override
+    public String toString() {
+        return "Asistencia: " + investigador.getNombreCompleto() + " -> " + conferencia.getNombre();
+    }
 }

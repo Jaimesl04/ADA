@@ -5,11 +5,7 @@ import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "investigador")
@@ -17,78 +13,80 @@ public class investigador {
 
     @Id
     @Column(name = "DNI", length = 9)
-    private String DNI;
+    private String dni;
 
     @Column(name = "NombreCompleto", nullable = false)
-    private String NombreCompleto;
+    private String nombreCompleto;
 
     @Column(name = "Direccion")
-    private String Direccion;
+    private String direccion;
 
     @Column(name = "Telefono", length = 9)
-    private String Telefono;
+    private String telefono;
 
     @Column(name = "Localidad")
-    private String Localidad;
+    private String localidad;
 
-    // RELACIONES
-    // Investigador con proyecto
+    // RELACIÓN CON PROYECTO
     @ManyToOne
     @JoinColumn(name = "nombre_proyecto")
     private proyecto proyecto;
 
-    // Investigador con tabla intermedia
-    @ManyToMany
-    @JoinColumn(name = "investigador")
-    private Set<investigador_conferencia> investigador_conferencias = new HashSet<>();
+    // RELACIÓN CON TABLA INTERMEDIA
+    @OneToMany(mappedBy = "investigador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<investigador_conferencia> asistenciasConferencias = new HashSet<>();
 
     // CONSTRUCTORES
     public investigador() {
     }
 
-    public investigador(String dNI, String nombreCompleto) {
-        DNI = dNI;
-        NombreCompleto = nombreCompleto;
+    public investigador(String dni, String nombreCompleto, String direccion, String telefono, String localidad) {
+        this.dni = dni;
+        this.nombreCompleto = nombreCompleto;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.localidad = localidad;
     }
 
-    public String getDNI() {
-        return DNI;
+    // GETTERS Y SETTERS
+    public String getDni() {
+        return dni;
     }
 
-    public void setDNI(String dNI) {
-        DNI = dNI;
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     public String getNombreCompleto() {
-        return NombreCompleto;
+        return nombreCompleto;
     }
 
     public void setNombreCompleto(String nombreCompleto) {
-        NombreCompleto = nombreCompleto;
+        this.nombreCompleto = nombreCompleto;
     }
 
     public String getDireccion() {
-        return Direccion;
+        return direccion;
     }
 
     public void setDireccion(String direccion) {
-        Direccion = direccion;
+        this.direccion = direccion;
     }
 
     public String getTelefono() {
-        return Telefono;
+        return telefono;
     }
 
     public void setTelefono(String telefono) {
-        Telefono = telefono;
+        this.telefono = telefono;
     }
 
     public String getLocalidad() {
-        return Localidad;
+        return localidad;
     }
 
     public void setLocalidad(String localidad) {
-        Localidad = localidad;
+        this.localidad = localidad;
     }
 
     public proyecto getProyecto() {
@@ -99,12 +97,16 @@ public class investigador {
         this.proyecto = proyecto;
     }
 
-    public Set<investigador_conferencia> getInvestigador_conferencias() {
-        return investigador_conferencias;
+    public Set<investigador_conferencia> getAsistenciasConferencias() {
+        return asistenciasConferencias;
     }
 
-    public void setInvestigador_conferencias(Set<investigador_conferencia> investigador_conferencias) {
-        this.investigador_conferencias = investigador_conferencias;
+    public void setAsistenciasConferencias(Set<investigador_conferencia> asistenciasConferencias) {
+        this.asistenciasConferencias = asistenciasConferencias;
     }
 
+    @Override
+    public String toString() {
+        return dni + " - " + nombreCompleto;
+    }
 }
