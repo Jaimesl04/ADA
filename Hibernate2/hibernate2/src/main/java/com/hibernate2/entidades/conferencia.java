@@ -80,8 +80,10 @@ public class conferencia {
         this.asistencias = asistencias;
     }
 
+    // toString
     @Override
     public String toString() {
-        return nombre + " en " + lugar + " (" + fechaHoraInicio + ")";
+        return "conferencia [nombre=" + nombre + ", fechaHoraInicio=" + fechaHoraInicio + ", lugar=" + lugar + "]";
     }
+
 }

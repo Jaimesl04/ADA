@@ -58,8 +58,10 @@ public class proyecto {
         this.investigadores = investigadores;
     }
 
+    // toString
     @Override
     public String toString() {
-        return nombre + " (Inicio: " + fechaInicio + ")";
+        return "proyecto [nombre=" + nombre + ", fechaInicio=" + fechaInicio + "]";
     }
+
 }

@@ -41,14 +41,19 @@ public class Main {
          * ejecutarOperacionesDeEliminacion();
          */
 
+        // EJERCICIO 3 - CONSULTAS JPQL
+        System.out.println("EJERCICIO 3");
+        ConsultasJPQL consultas = new ConsultasJPQL(em);
+        consultas.ejecutarTodasConsultas();
+
         em.close();
         emf.close();
 
         System.out.println("\n PROGRAMA FINALIZADO");
     }
 
-    // METODOS AUXILIARES PARA CREAR OBJETOS
-
+    // METODOS AUXILIARES PARA CREAR LOS OBJETOS
+    // Creacion de investigadores
     private static investigador crearNuevoInvestigador(String dni, String nombreCompleto, String direccion,
             String telefono, String localidad) {
         investigador nuevoInvestigador = new investigador();
@@ -60,6 +65,7 @@ public class Main {
         return nuevoInvestigador;
     }
 
+    // Creacion de conferencias
     private static conferencia crearNuevaConferencia(String nombreConferencia, String fecha, String lugar, double horas)
             throws Exception {
         conferencia nuevaConferencia = new conferencia();
@@ -71,6 +77,7 @@ public class Main {
         return nuevaConferencia;
     }
 
+    // Creacion de proyectos
     private static proyecto crearNuevoProyecto(String nombreProyecto, String fechaInicio) throws Exception {
         proyecto nuevoProyecto = new proyecto();
         nuevoProyecto.setNombre(nombreProyecto);
@@ -79,13 +86,14 @@ public class Main {
         return nuevoProyecto;
     }
 
+    // Creacion de las asistencias (investigador_conferencia)
     private static investigador_conferencia crearNuevaAsistenciaConferencia(investigador investigador,
             conferencia conferencia) {
         investigador_conferencia nuevaAsistencia = new investigador_conferencia(investigador, conferencia);
         return nuevaAsistencia;
     }
 
-    // APARTADO b): INSERTAR DATOS INICIALES
+    // APARTADO b: INSERTAR DATOS INICIALES
 
     private static void insertarDatosIniciales() throws Exception {
         EntityTransaction transaccion = em.getTransaction();
@@ -108,22 +116,22 @@ public class Main {
 
             System.out.println("Creando investigadores...");
 
-            investigador investigador1 = crearNuevoInvestigador("30487452M", "Juan Pérez Martínez", "C./ Desengaño 21",
-                    "623423523", "Cádiz");
+            investigador investigador1 = crearNuevoInvestigador("30487452M", "Juan Perez Martinez", "C./ Desengano 21",
+                    "623423523", "Cadiz");
             investigador investigador2 = crearNuevoInvestigador("45768434R", "Luisa Puertas Soto", "C./ Falsa 123",
-                    "693543252", "Cádiz");
-            investigador investigador3 = crearNuevoInvestigador("45642323B", "María Ruiz Sánchez", "C./ Almiel 12",
-                    "623234523", "Cádiz");
-            investigador investigador4 = crearNuevoInvestigador("67534312A", "Pablo Fernández Feria",
-                    "Avd. Inventada 15", "613442323", "Cádiz");
-            investigador investigador5 = crearNuevoInvestigador("65342316R", "Sofía Luque Conde", "C/ La Virtud 1",
-                    "664123623", "Cádiz");
-            investigador investigador6 = crearNuevoInvestigador("67323452B", "José López", "C./ Almiel 15", "723234523",
-                    "Cádiz");
-            investigador investigador7 = crearNuevoInvestigador("78953321A", "Andrés Fernán Noria", "Avd. Inventada 11",
-                    "713442323", "Cádiz");
-            investigador investigador8 = crearNuevoInvestigador("98634571R", "Sofía Martín Luz", "C/ La Virtud 4",
-                    "764123623", "Cádiz");
+                    "693543252", "Cadiz");
+            investigador investigador3 = crearNuevoInvestigador("45642323B", "Maria Ruiz Sanchez", "C./ Almiel 12",
+                    "623234523", "Cadiz");
+            investigador investigador4 = crearNuevoInvestigador("67534312A", "Pablo Fernandez Feria",
+                    "Avd. Inventada 15", "613442323", "Cadiz");
+            investigador investigador5 = crearNuevoInvestigador("65342316R", "Sofia Luque Conde", "C/ La Virtud 1",
+                    "664123623", "Cadiz");
+            investigador investigador6 = crearNuevoInvestigador("67323452B", "Jose Lopez", "C./ Almiel 15", "723234523",
+                    "Cadiz");
+            investigador investigador7 = crearNuevoInvestigador("78953321A", "Andres Fernan Noria", "Avd. Inventada 11",
+                    "713442323", "Cadiz");
+            investigador investigador8 = crearNuevoInvestigador("98634571R", "Sofia Martin Luz", "C/ La Virtud 4",
+                    "764123623", "Cadiz");
 
             System.out.println("Asignando proyectos a los investigadores...");
 
@@ -153,7 +161,7 @@ public class Main {
             conferencia conferencia1 = crearNuevaConferencia("Conferencia 1", "2020-11-02", "San Fernando", 2.5);
             conferencia conferencia2 = crearNuevaConferencia("Conferencia 2", "2021-01-12", "Sevilla", 4.0);
             conferencia conferencia3 = crearNuevaConferencia("Conferencia 3", "2021-07-01", "San Fernando", 1.5);
-            conferencia conferencia4 = crearNuevaConferencia("Conferencia 4", "2021-11-02", "Berlín", 3.0);
+            conferencia conferencia4 = crearNuevaConferencia("Conferencia 4", "2021-11-02", "Berlin", 3.0);
 
             em.persist(conferencia1);
             em.persist(conferencia2);
@@ -198,13 +206,13 @@ public class Main {
             if (transaccion.isActive()) {
                 transaccion.rollback();
             }
-            System.out.println("Error al insertar datos: " + e.getMessage());
+            System.out.println("Error al insertar los datos: " + e.getMessage());
             e.printStackTrace();
             throw e;
         }
     }
 
-    // PARTE c): CONSULTAS
+    // APARTADO C: CONSULTAS
 
     private static void ejecutarConsultasDeVisualizacion() {
         try {
@@ -243,7 +251,7 @@ public class Main {
                     String nombreProyecto = (String) fila[0];
                     String nombreInvestigador = fila[1] != null ? (String) fila[1]
                             : "No tiene investigadores asignados";
-                    System.out.println("    - " + nombreProyecto + " -> " + nombreInvestigador);
+                    System.out.println(" - " + nombreProyecto + " -> " + nombreInvestigador);
                 }
             }
 
@@ -258,7 +266,7 @@ public class Main {
                     .getResultList();
 
             if (resultadosAsistentes.isEmpty()) {
-                System.out.println("    No hay datos registrados");
+                System.out.println("No hay datos registrados");
             } else {
                 for (Object[] fila : resultadosAsistentes) {
                     String nombreConferencia = (String) fila[0];
@@ -293,14 +301,14 @@ public class Main {
         }
     }
 
-    // PARTE d): OPERACIONES DE ACTUALIZACIÓN
+    // APARTADO D: OPERACIONES DE ACTUALIZACION
 
     private static void ejecutarOperacionesDeActualizacion() {
         EntityTransaction transaccion = em.getTransaction();
         transaccion.begin();
 
         try {
-            System.out.println("\n  ACTUALIZACIÓN 1: Investigador 2 ahora solo asiste a Conferencia 2:");
+            System.out.println("\n  ACTUALIZACION 1: Investigador 2 ahora solo asiste a Conferencia 2:");
 
             investigador investigadorLuisa = em.find(investigador.class, "45768434R");
             conferencia conferenciaSevilla = em.find(conferencia.class, "Conferencia 2");
@@ -319,10 +327,10 @@ public class Main {
                 System.out.println("    " + investigadorLuisa.getNombreCompleto() + " ahora solo asiste a: "
                         + conferenciaSevilla.getNombre());
             } else {
-                System.out.println("    No se ha encontrado el investigador 2 o la conferencia 2");
+                System.out.println("No se ha encontrado el investigador 2 o la conferencia 2");
             }
 
-            System.out.println("\n ACTUALIZACIÓN 2: Actualizando fecha de Conferencia 4 a fecha actual:");
+            System.out.println("\n ACTUALIZACION 2: Actualizando fecha de Conferencia 4 a fecha actual:");
             conferencia conferenciaBerlin = em.find(conferencia.class, "Conferencia 4");
 
             if (conferenciaBerlin != null) {
@@ -366,7 +374,7 @@ public class Main {
         }
     }
 
-    // PARTE e): OPERACIONES DE ELIMINACION
+    // APARTADO E: OPERACIONES DE ELIMINACION
 
     private static void ejecutarOperacionesDeEliminacion() {
         EntityTransaction transaccion = em.getTransaction();
@@ -390,7 +398,7 @@ public class Main {
                 System.out.println("Investigador 2 no encontrado");
             }
 
-            System.out.println("\n  ELIMINACIÓN 2: Eliminando proyecto 1:");
+            System.out.println("\n  ELIMINACION 2: Eliminando proyecto 1:");
             proyecto proyectoAEliminar = em.find(proyecto.class, "Proyecto 1");
             if (proyectoAEliminar != null) {
                 List<investigador> investigadoresDelProyecto = em.createQuery(
@@ -412,7 +420,7 @@ public class Main {
                 System.out.println("Proyecto 1 no encontrado");
             }
 
-            System.out.println("\n  ELIMINACIÓN 3: Eliminando conferencia 4:");
+            System.out.println("\n  ELIMINACION 3: Eliminando conferencia 4:");
             conferencia conferenciaAEliminar = em.find(conferencia.class, "Conferencia 4");
             if (conferenciaAEliminar != null) {
                 Query consultaEliminarAsistenciasConferencia = em

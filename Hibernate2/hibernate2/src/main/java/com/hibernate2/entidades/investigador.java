@@ -34,7 +34,7 @@ public class investigador {
 
     // RELACIÓN CON TABLA INTERMEDIA
     @OneToMany(mappedBy = "investigador", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<investigador_conferencia> asistenciasConferencias = new HashSet<>();
+    private Set<investigador_conferencia> investigadorConferencias = new HashSet<>();
 
     // CONSTRUCTORES
     public investigador() {
@@ -98,15 +98,17 @@ public class investigador {
     }
 
     public Set<investigador_conferencia> getAsistenciasConferencias() {
-        return asistenciasConferencias;
+        return investigadorConferencias;
     }
 
     public void setAsistenciasConferencias(Set<investigador_conferencia> asistenciasConferencias) {
-        this.asistenciasConferencias = asistenciasConferencias;
+        this.investigadorConferencias = asistenciasConferencias;
     }
 
+    // toString
     @Override
     public String toString() {
-        return dni + " - " + nombreCompleto;
+        return "investigador [dni=" + dni + ", nombreCompleto=" + nombreCompleto + "]";
     }
+
 }

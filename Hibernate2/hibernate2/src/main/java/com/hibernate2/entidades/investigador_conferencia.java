@@ -52,8 +52,11 @@ public class investigador_conferencia {
         this.conferencia = conferencia;
     }
 
+    // toString
     @Override
     public String toString() {
-        return "Asistencia: " + investigador.getNombreCompleto() + " -> " + conferencia.getNombre();
+        return "investigador_conferencia [investigador=" + investigador + ", conferencia=" + conferencia + "]";
     }
+
+    
 }
